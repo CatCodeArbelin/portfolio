@@ -1,15 +1,24 @@
+import { DesignCardsSection } from './components/DesignCardsSection';
 import { HealthStatus } from './components/HealthStatus';
+import { HeroSection } from './components/HeroSection';
+import { ProjectsSection } from './components/ProjectsSection';
+import { ServicesSection } from './components/ServicesSection';
+import { StackBadges } from './components/StackBadges';
 
 export function App() {
   return (
     <main className="page">
-      <section className="hero" aria-labelledby="page-title">
-        <p className="eyebrow">CatCode / Arbelin Lab</p>
-        <h1 id="page-title">AI Backend, Telegram Bots и Automation Developer</h1>
-        <p className="lead">
-          Этап 1: Vite React TypeScript приложение с базовой страницей и проверкой
-          подключения к backend health endpoint.
-        </p>
+      <HeroSection />
+      <StackBadges />
+      <ServicesSection />
+      <ProjectsSection />
+      <DesignCardsSection />
+      <section className="sectionCard" aria-labelledby="health-title">
+        <div className="sectionHeader">
+          <p className="eyebrow">Status</p>
+          <h2 id="health-title">Backend health</h2>
+          <p>Существующая проверка backend health endpoint оставлена на главной странице.</p>
+        </div>
         <HealthStatus />
       </section>
     </main>
