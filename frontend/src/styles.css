@@ -510,6 +510,14 @@ h4 {
   min-height: 100%;
 }
 
+.serviceCard {
+  border-color: rgba(75, 240, 255, 0.2);
+}
+
+.serviceCard h3 {
+  margin-bottom: 0;
+}
+
 .contentCard ul:not(.inlineList),
 .designCard ul:not(.inlineList) {
   margin: 0;
