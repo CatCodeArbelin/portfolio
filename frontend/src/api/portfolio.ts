@@ -39,7 +39,7 @@ async function fetchJson<T>(endpoint: string, errorContext: string): Promise<T> 
       ? `${response.status} ${response.statusText}`
       : `${response.status}`;
 
-    throw new Error(`${errorContext} вернул HTTP ${statusDescription}`);
+    throw new Error(`${errorContext} returned HTTP ${statusDescription}`);
   }
 
   return response.json() as Promise<T>;

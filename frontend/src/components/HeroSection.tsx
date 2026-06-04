@@ -1,52 +1,50 @@
-const positioningItems = [
-  {
-    title: 'Telegram Bots',
-    text: 'Сценарии заявок, каталогов, уведомлений и административных процессов.',
-  },
-  {
-    title: 'AI Automation',
-    text: 'AI-ассистенты, обработка входящих запросов и автоматизация рутины.',
-  },
-  {
-    title: 'Backend API',
-    text: 'FastAPI-сервисы, REST API, интеграции, PostgreSQL и Redis.',
-  },
-  {
-    title: 'Internal Tools',
-    text: 'Мини-CRM, панели управления и инструменты для внутренних процессов.',
-  },
+const terminalLines = [
+  '$ whoami',
+  'catcode / arbelin',
+  '$ stack --focus',
+  'FastAPI · React · Bots · AI',
+  '$ deploy --style=clean',
+  'production-looking portfolio online',
 ];
 
 export function HeroSection() {
   return (
     <section className="hero sectionCard" aria-labelledby="page-title">
       <div className="heroContent">
-        <p className="eyebrow">CatCode / Arbelin</p>
-        <h1 id="page-title">AI Backend · Telegram Bots · Automation</h1>
+        <p className="eyebrow">Independent Developer</p>
+        <h1 id="page-title">CatCode / Arbelin</h1>
+        <p className="heroSubtitle">AI Backend · Telegram Bots · Automation</p>
         <p className="lead">
-          Создаю Telegram-ботов, backend API, AI-интеграции и автоматизации для бизнеса.
+          Проектирую и собираю понятные backend-сервисы, Telegram-ботов и AI-автоматизации:
+          от аккуратного API до внутренних инструментов, которые снимают ручную рутину.
         </p>
         <div className="heroActions" aria-label="Основные ссылки">
           <a className="primaryLink" href="https://github.com/CatCodeArbelin">
-            Посмотреть GitHub
+            GitHub
           </a>
           <a className="secondaryLink" href="#services">
-            Услуги
+            Services
           </a>
           <a className="secondaryLink" href="#projects">
-            Проекты
+            Projects
           </a>
         </div>
       </div>
 
-      <div className="positioningGrid" aria-label="Краткое позиционирование">
-        {positioningItems.map((item) => (
-          <article className="miniCard" key={item.title}>
-            <h2>{item.title}</h2>
-            <p>{item.text}</p>
-          </article>
-        ))}
-      </div>
+      <aside className="heroTerminal" aria-label="Декоративный terminal cat developer pattern">
+        <div className="terminalChrome" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+        </div>
+        <pre>{terminalLines.join('\n')}</pre>
+        <div className="catPattern" aria-hidden="true">
+          <span className="catEar left" />
+          <span className="catEar right" />
+          <span className="catFace">&lt;/ᓚᘏᗢ&gt;</span>
+          <span className="codeGlyph">{'{ api: "clean" }'}</span>
+        </div>
+      </aside>
     </section>
   );
 }
