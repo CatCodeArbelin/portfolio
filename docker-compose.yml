@@ -1,0 +1,63 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    environment:
+      APP_NAME: CatCode Portfolio API
+      APP_VERSION: 0.1.0
+      API_PREFIX: /api/v1
+      CORS_ORIGINS: '["http://localhost:5173"]'
+      DATABASE_URL: postgresql+asyncpg://catcode:catcode@postgres:5432/catcode
+      REDIS_URL: redis://redis:6379/0
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v1/health', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  frontend:
+    build:
+      context: ./frontend
+    environment:
+      VITE_API_PROXY_TARGET: http://backend:8000
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "5173:5173"
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: catcode
+      POSTGRES_USER: catcode
+      POSTGRES_PASSWORD: catcode
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U catcode -d catcode"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
