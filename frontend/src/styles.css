@@ -114,7 +114,8 @@ h4 {
 .primaryLink,
 .secondaryLink,
 .cardLink,
-.healthButton {
+.healthButton,
+.stateRetryButton {
   border-radius: 999px;
   display: inline-flex;
   font-weight: 800;
@@ -123,7 +124,8 @@ h4 {
 }
 
 .primaryLink,
-.healthButton {
+.healthButton,
+.stateRetryButton {
   background: #f4f7fb;
   border: 0;
   color: #10131a;
@@ -140,7 +142,8 @@ h4 {
 .primaryLink:focus-visible,
 .secondaryLink:focus-visible,
 .cardLink:focus-visible,
-.healthButton:focus-visible {
+.healthButton:focus-visible,
+.stateRetryButton:focus-visible {
   outline: 3px solid #9ab4ff;
   outline-offset: 3px;
 }
@@ -285,6 +288,24 @@ h4 {
 .stateMessageError {
   border-color: rgba(248, 113, 113, 0.55);
   color: #fca5a5;
+}
+
+.stateMessage p {
+  margin-bottom: 0;
+}
+
+.stateMessage p + p {
+  margin-top: 8px;
+}
+
+.stateDetails {
+  color: #ffd1d1;
+  line-height: 1.6;
+}
+
+.stateRetryButton {
+  cursor: pointer;
+  margin-top: 16px;
 }
 
 .healthCardOk {

@@ -10,7 +10,12 @@ declare module 'vite' {
 
 declare module 'react' {
   export function StrictMode(props: { children?: unknown }): unknown;
+  export function useCallback<Callback extends (...args: never[]) => unknown>(
+    callback: Callback,
+    deps: readonly unknown[],
+  ): Callback;
   export function useEffect(effect: () => void | (() => void), deps?: readonly unknown[]): void;
+  export function useRef<Value>(initialValue: Value): { current: Value };
   export function useState<State>(
     initialState: State,
   ): [State, (nextState: State | ((currentState: State) => State)) => void];
