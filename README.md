@@ -10,7 +10,7 @@
 - React + Vite frontend;
 - PostgreSQL в `docker-compose.yml`;
 - Redis в `docker-compose.yml`;
-- передачу `DATABASE_URL` в backend через environment.
+- передачу `DATABASE_URL` и `REDIS_URL` в backend через environment.
 
 Полная database-архитектура намеренно не добавляется на этом этапе: SQLAlchemy models,
 Alembic config и repositories относятся к Этапу 2.
@@ -18,6 +18,10 @@ Alembic config и repositories относятся к Этапу 2.
 Health endpoint сейчас проверяет готовность самого backend. Доступность PostgreSQL и Redis
 для базового запуска контролируется healthcheck'ами Docker Compose; полноценный runtime-check
 из API будет добавлен на этапе системного статуса/Database без преждевременного ORM-слоя.
+
+На Этапе 1 Redis подключается только как инфраструктурный сервис Compose. Cache service,
+rate limit service, ARQ worker и queue logic намеренно не создаются до этапов AI Generator
+и security/rate limit.
 
 ## Локальный запуск
 
