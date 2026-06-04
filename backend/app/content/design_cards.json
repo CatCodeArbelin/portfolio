@@ -1,0 +1,92 @@
+[
+  {
+    "slug": "telegram-shop-bot",
+    "title": "Telegram Shop Bot",
+    "task": "Спроектировать Telegram-бота для магазина: каталог товаров, оформление заказа, оплата и уведомления администратора.",
+    "scheme": "Telegram User\n      |\n      v\nAiogram Bot\n      |\n      v\nBackend Service\n      |\n      +------> PostgreSQL\n      |\n      +------> Payment Provider\n      |\n      +------> Admin Notifications",
+    "stack": [
+      "Python",
+      "aiogram",
+      "FastAPI",
+      "PostgreSQL",
+      "Payment Provider",
+      "Docker"
+    ],
+    "key_decisions": [
+      "Разделить Telegram-бота и backend-сервис, чтобы бизнес-логика не зависела напрямую от обработчиков сообщений.",
+      "Хранить заказы и статусы оплаты в PostgreSQL, а не только в памяти процесса бота.",
+      "Отправлять администратору отдельные уведомления о новых заказах и важных изменениях статуса."
+    ],
+    "common_mistakes": [
+      "Смешивать сценарии Telegram-диалогов, работу с базой данных и платежную логику в одном большом обработчике.",
+      "Считать оплату успешной без проверки ответа или webhook-события от платежного провайдера.",
+      "Не предусмотреть понятные статусы заказа для пользователя и администратора."
+    ],
+    "scaling_notes": [
+      "Вынести тяжелые операции в фоновые задачи или очередь.",
+      "Добавить кэширование часто запрашиваемого каталога.",
+      "Разделить административные уведомления, платежные события и пользовательские сценарии на независимые модули."
+    ]
+  },
+  {
+    "slug": "ai-assistant",
+    "title": "AI Assistant",
+    "task": "Спроектировать AI-ассистента для обработки пользовательских запросов через API с кэшированием, очередью задач и сохранением результатов.",
+    "scheme": "Client\n  |\n  v\nFastAPI\n  |\n  +------> Redis cache\n  |\n  +------> ARQ queue\n  |\n  v\nAI Worker\n  |\n  v\nOpenAI / Claude API\n  |\n  v\nPostgreSQL",
+    "stack": [
+      "Python",
+      "FastAPI",
+      "Redis",
+      "ARQ",
+      "OpenAI / Claude API",
+      "PostgreSQL",
+      "Docker"
+    ],
+    "key_decisions": [
+      "Разделить HTTP API и AI Worker, чтобы долгие AI-запросы не блокировали web-процесс.",
+      "Использовать Redis для кэша и очереди задач.",
+      "Сохранять задания, статусы и результаты в PostgreSQL для повторного чтения и диагностики."
+    ],
+    "common_mistakes": [
+      "Выполнять долгие AI-запросы синхронно внутри HTTP endpoint без статуса задачи.",
+      "Не обрабатывать ошибки внешнего AI-провайдера и превышение лимитов.",
+      "Не отделять кэшированный ответ от нового запуска генерации."
+    ],
+    "scaling_notes": [
+      "Запускать несколько worker-процессов для параллельной обработки очереди.",
+      "Добавить rate limiting и контроль стоимости запросов к AI-провайдерам.",
+      "Использовать провайдерную абстракцию для переключения между OpenAI, Claude или mock-режимом."
+    ]
+  },
+  {
+    "slug": "catcode-portfolio",
+    "title": "CatCode Portfolio",
+    "task": "Спроектировать fullstack-портфолио с React frontend, FastAPI backend, базой данных, Redis и интеграцией с Telegram Bot API.",
+    "scheme": "React\n  |\n  v\nNginx\n  |\n  v\nFastAPI\n  |\n  +------> PostgreSQL\n  |\n  +------> Redis\n  |\n  +------> Telegram Bot API",
+    "stack": [
+      "React",
+      "TypeScript",
+      "Nginx",
+      "FastAPI",
+      "PostgreSQL",
+      "Redis",
+      "Telegram Bot API",
+      "Docker Compose"
+    ],
+    "key_decisions": [
+      "Отдавать frontend через Nginx и проксировать API-запросы в FastAPI.",
+      "Хранить заявки и служебные данные в PostgreSQL.",
+      "Использовать Redis для задач и сценариев, которым нужен быстрый временный state."
+    ],
+    "common_mistakes": [
+      "Размещать секреты Telegram или базы данных в frontend-коде.",
+      "Не разделять публичные frontend routes и backend API routes.",
+      "Описывать в README функционал, который еще не реализован в проекте."
+    ],
+    "scaling_notes": [
+      "Разнести frontend, backend, базу данных и Redis по отдельным сервисам.",
+      "Добавить health checks, централизованные логи и наблюдаемость.",
+      "Выделить фоновые задачи для Telegram-уведомлений и AI-сценариев."
+    ]
+  }
+]
