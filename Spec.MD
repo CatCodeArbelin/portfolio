@@ -1005,24 +1005,25 @@ failed
 docker compose up --build
 ```
 
-Сервисы:
+Сервисы Этапа 1:
 
 ```text
-frontend
 backend
-worker
-bot
+frontend
 postgres
 redis
 ```
 
-Добавить healthchecks для:
+На Этапе 1 не добавлять worker, bot, certbot, отдельные production profiles
+или CI-related сервисы. Эти компоненты относятся к последующим этапам.
 
-* backend;
+Добавить Docker Compose healthchecks для:
+
 * postgres;
-* redis.
+* redis;
+* backend.
 
-Backend должен ждать готовности зависимостей.
+Backend должен ждать готовности PostgreSQL и Redis через healthcheck-зависимости.
 
 Для локального режима проект должен работать без OpenAI API и Telegram token.
 
