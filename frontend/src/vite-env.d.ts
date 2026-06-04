@@ -2,8 +2,18 @@ declare const process: {
   env: Record<string, string | undefined>;
 };
 
+declare module '*.css';
+
+declare module 'vite' {
+  export function defineConfig(config: unknown): unknown;
+}
+
 declare module 'react' {
   export function StrictMode(props: { children?: unknown }): unknown;
+  export function useEffect(effect: () => void | (() => void), deps?: readonly unknown[]): void;
+  export function useState<State>(
+    initialState: State,
+  ): [State, (nextState: State | ((currentState: State) => State)) => void];
 }
 
 declare module 'react-dom/client' {
