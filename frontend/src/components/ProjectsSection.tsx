@@ -44,10 +44,7 @@ export function ProjectsSection() {
     logContext: 'ProjectsSection',
   });
 
-  const projects =
-    projectsState.status === 'ready' && projectsState.source === 'fallback'
-      ? projectsState.data
-      : projectFallbacks;
+  const projects = projectsState.status === 'ready' ? projectsState.data : projectFallbacks;
 
   return (
     <section className="sectionCard" id="projects" aria-labelledby="projects-title">
