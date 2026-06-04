@@ -1,41 +1,16 @@
-import { useEffect, useState } from 'react';
-import { getDesignCards, type DesignCard } from '../api/portfolio';
-
-type DesignCardsState =
-  | { status: 'loading' }
-  | { status: 'ready'; data: DesignCard[] }
-  | { status: 'error'; message: string };
-
-function getErrorMessage(error: unknown): string {
-  if (error instanceof Error) {
-    return error.message;
-  }
-
-  return 'Не удалось загрузить карточки системного дизайна.';
-}
+import { useCallback } from 'react';
+import { getDesignCards } from '../api/portfolio';
+import { useSectionData } from './useSectionData';
 
 export function DesignCardsSection() {
-  const [designCardsState, setDesignCardsState] = useState<DesignCardsState>({ status: 'loading' });
-
-  useEffect(() => {
-    let isMounted = true;
-
-    getDesignCards()
-      .then((data) => {
-        if (isMounted) {
-          setDesignCardsState({ status: 'ready', data });
-        }
-      })
-      .catch((error: unknown) => {
-        if (isMounted) {
-          setDesignCardsState({ status: 'error', message: getErrorMessage(error) });
-        }
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  const getFallbackError = useCallback(
+    () => 'Не удалось загрузить карточки системного дизайна.',
+    [],
+  );
+  const [designCardsState, retryLoadDesignCards] = useSectionData({
+    loadData: getDesignCards,
+    getFallbackError,
+  });
 
   return (
     <section className="sectionCard" aria-labelledby="design-cards-title">
@@ -49,10 +24,18 @@ export function DesignCardsSection() {
       </div>
 
       {designCardsState.status === 'loading' && (
-        <p className="stateMessage">Загружаем system design cards…</p>
+        <p className="stateMessage" aria-live="polite">
+          Загружаем system design cards…
+        </p>
       )}
       {designCardsState.status === 'error' && (
-        <p className="stateMessage stateMessageError">{designCardsState.message}</p>
+        <div className="stateMessage stateMessageError" role="status">
+          <p>System design cards временно недоступны, остальные секции сайта продолжают работать.</p>
+          <p className="stateDetails">{designCardsState.message}</p>
+          <button className="stateRetryButton" type="button" onClick={retryLoadDesignCards}>
+            Повторить загрузку карточек
+          </button>
+        </div>
       )}
       {designCardsState.status === 'ready' && (
         <div className="designGrid">

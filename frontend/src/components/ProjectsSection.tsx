@@ -1,10 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useCallback } from 'react';
 import { getProjects, type Project } from '../api/portfolio';
-
-type ProjectsState =
-  | { status: 'loading' }
-  | { status: 'ready'; data: Project[] }
-  | { status: 'error'; message: string };
+import { useSectionData } from './useSectionData';
 
 const statusLabels: Record<Project['status'], string> = {
   demo: 'Demo',
@@ -13,36 +9,12 @@ const statusLabels: Record<Project['status'], string> = {
   production: 'Production',
 };
 
-function getErrorMessage(error: unknown): string {
-  if (error instanceof Error) {
-    return error.message;
-  }
-
-  return 'Не удалось загрузить проекты.';
-}
-
 export function ProjectsSection() {
-  const [projectsState, setProjectsState] = useState<ProjectsState>({ status: 'loading' });
-
-  useEffect(() => {
-    let isMounted = true;
-
-    getProjects()
-      .then((data) => {
-        if (isMounted) {
-          setProjectsState({ status: 'ready', data });
-        }
-      })
-      .catch((error: unknown) => {
-        if (isMounted) {
-          setProjectsState({ status: 'error', message: getErrorMessage(error) });
-        }
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  const getFallbackError = useCallback(() => 'Не удалось загрузить проекты.', []);
+  const [projectsState, retryLoadProjects] = useSectionData({
+    loadData: getProjects,
+    getFallbackError,
+  });
 
   return (
     <section className="sectionCard" id="projects" aria-labelledby="projects-title">
@@ -55,9 +27,19 @@ export function ProjectsSection() {
         </p>
       </div>
 
-      {projectsState.status === 'loading' && <p className="stateMessage">Загружаем проекты…</p>}
+      {projectsState.status === 'loading' && (
+        <p className="stateMessage" aria-live="polite">
+          Загружаем проекты…
+        </p>
+      )}
       {projectsState.status === 'error' && (
-        <p className="stateMessage stateMessageError">{projectsState.message}</p>
+        <div className="stateMessage stateMessageError" role="status">
+          <p>Проекты временно недоступны, остальные секции сайта продолжают работать.</p>
+          <p className="stateDetails">{projectsState.message}</p>
+          <button className="stateRetryButton" type="button" onClick={retryLoadProjects}>
+            Повторить загрузку проектов
+          </button>
+        </div>
       )}
       {projectsState.status === 'ready' && (
         <div className="cardGrid">

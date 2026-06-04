@@ -1,41 +1,13 @@
-import { useEffect, useState } from 'react';
-import { getServices, type ServiceCard } from '../api/portfolio';
-
-type ServicesState =
-  | { status: 'loading' }
-  | { status: 'ready'; data: ServiceCard[] }
-  | { status: 'error'; message: string };
-
-function getErrorMessage(error: unknown): string {
-  if (error instanceof Error) {
-    return error.message;
-  }
-
-  return 'Не удалось загрузить услуги.';
-}
+import { useCallback } from 'react';
+import { getServices } from '../api/portfolio';
+import { useSectionData } from './useSectionData';
 
 export function ServicesSection() {
-  const [servicesState, setServicesState] = useState<ServicesState>({ status: 'loading' });
-
-  useEffect(() => {
-    let isMounted = true;
-
-    getServices()
-      .then((data) => {
-        if (isMounted) {
-          setServicesState({ status: 'ready', data });
-        }
-      })
-      .catch((error: unknown) => {
-        if (isMounted) {
-          setServicesState({ status: 'error', message: getErrorMessage(error) });
-        }
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  const getFallbackError = useCallback(() => 'Не удалось загрузить услуги.', []);
+  const [servicesState, retryLoadServices] = useSectionData({
+    loadData: getServices,
+    getFallbackError,
+  });
 
   return (
     <section className="sectionCard" id="services" aria-labelledby="services-title">
@@ -45,9 +17,19 @@ export function ServicesSection() {
         <p>Фокус на понятных backend-сервисах, Telegram-сценариях и автоматизации процессов.</p>
       </div>
 
-      {servicesState.status === 'loading' && <p className="stateMessage">Загружаем услуги…</p>}
+      {servicesState.status === 'loading' && (
+        <p className="stateMessage" aria-live="polite">
+          Загружаем услуги…
+        </p>
+      )}
       {servicesState.status === 'error' && (
-        <p className="stateMessage stateMessageError">{servicesState.message}</p>
+        <div className="stateMessage stateMessageError" role="status">
+          <p>Услуги временно недоступны, остальные секции сайта продолжают работать.</p>
+          <p className="stateDetails">{servicesState.message}</p>
+          <button className="stateRetryButton" type="button" onClick={retryLoadServices}>
+            Повторить загрузку услуг
+          </button>
+        </div>
       )}
       {servicesState.status === 'ready' && (
         <div className="cardGrid">
