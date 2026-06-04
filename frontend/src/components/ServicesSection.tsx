@@ -20,6 +20,51 @@ const serviceFallbacks: ServiceCard[] = [
   },
 ];
 
+const serviceTitles = new Set<string>(serviceFallbacks.map((service) => service.title));
+
+function getCompatibleFeatures(service: unknown, title: ServiceCard['title']): string[] | undefined {
+  if (!service || typeof service !== 'object' || !('title' in service) || !('features' in service)) {
+    return undefined;
+  }
+
+  const serviceTitle = service.title;
+  const serviceFeatures = service.features;
+
+  if (typeof serviceTitle !== 'string' || serviceTitle !== title || !serviceTitles.has(serviceTitle)) {
+    return undefined;
+  }
+
+  if (!Array.isArray(serviceFeatures)) {
+    return undefined;
+  }
+
+  const features = serviceFeatures.filter(
+    (feature): feature is string => typeof feature === 'string' && feature.trim().length > 0,
+  );
+
+  return features.length > 0 ? features : undefined;
+}
+
+function getStableServices(servicesStateData: ServiceCard[] | undefined): ServiceCard[] {
+  if (!Array.isArray(servicesStateData)) {
+    return serviceFallbacks;
+  }
+
+  return serviceFallbacks.map((fallbackService) => {
+    const apiService = servicesStateData.find((service) => service.title === fallbackService.title);
+    const apiFeatures = getCompatibleFeatures(apiService, fallbackService.title);
+
+    if (!apiFeatures) {
+      return fallbackService;
+    }
+
+    return {
+      title: fallbackService.title,
+      features: apiFeatures,
+    };
+  });
+}
+
 export function ServicesSection() {
   const [servicesState] = useSectionData({
     loadData: getServices,
@@ -28,7 +73,7 @@ export function ServicesSection() {
     logContext: 'ServicesSection',
   });
 
-  const services = servicesState.status === 'ready' ? servicesState.data : serviceFallbacks;
+  const services = getStableServices(servicesState.status === 'ready' ? servicesState.data : undefined);
 
   return (
     <section className="sectionCard" id="services" aria-labelledby="services-title">
@@ -39,7 +84,7 @@ export function ServicesSection() {
       </div>
 
       <div className="cardGrid servicesGrid">
-        {services.slice(0, 4).map((service) => (
+        {services.map((service) => (
           <article className="contentCard serviceCard" key={service.title}>
             <h3>{service.title}</h3>
             <ul>
