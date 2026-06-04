@@ -2,46 +2,63 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 export type SectionDataState<T> =
   | { status: 'loading' }
-  | { status: 'ready'; data: T }
-  | { status: 'error'; message: string };
+  | { status: 'ready'; data: T; source: 'api' | 'fallback' }
+  | { status: 'empty'; message: string };
 
 type UseSectionDataOptions<T> = {
   loadData: () => Promise<T>;
-  getFallbackError: () => string;
+  fallbackData?: T;
+  emptyMessage: string;
+  logContext: string;
 };
 
-function getErrorMessage(error: unknown, getFallbackError: () => string): string {
-  if (error instanceof Error && error.message.trim().length > 0) {
-    return error.message;
+function getInitialSectionState<T>(fallbackData: T | undefined): SectionDataState<T> {
+  if (fallbackData !== undefined) {
+    return { status: 'ready', data: fallbackData, source: 'fallback' };
   }
 
-  return getFallbackError();
+  return { status: 'loading' };
 }
 
 export function useSectionData<T>({
   loadData,
-  getFallbackError,
+  fallbackData,
+  emptyMessage,
+  logContext,
 }: UseSectionDataOptions<T>): [SectionDataState<T>, () => void] {
   const requestIdRef = useRef(0);
-  const [sectionState, setSectionState] = useState<SectionDataState<T>>({ status: 'loading' });
+  const hasFallback = fallbackData !== undefined;
+  const [sectionState, setSectionState] = useState<SectionDataState<T>>(
+    getInitialSectionState(fallbackData),
+  );
 
   const loadSectionData = useCallback(() => {
     const requestId = requestIdRef.current + 1;
     requestIdRef.current = requestId;
-    setSectionState({ status: 'loading' });
+
+    if (!hasFallback) {
+      setSectionState({ status: 'loading' });
+    }
 
     loadData()
       .then((data) => {
         if (requestIdRef.current === requestId) {
-          setSectionState({ status: 'ready', data });
+          setSectionState({ status: 'ready', data, source: 'api' });
         }
       })
       .catch((error: unknown) => {
+        console.error(`${logContext}: portfolio API недоступен, используем мягкое состояние.`, error);
+
         if (requestIdRef.current === requestId) {
-          setSectionState({ status: 'error', message: getErrorMessage(error, getFallbackError) });
+          if (hasFallback) {
+            setSectionState({ status: 'ready', data: fallbackData, source: 'fallback' });
+            return;
+          }
+
+          setSectionState({ status: 'empty', message: emptyMessage });
         }
       });
-  }, [getFallbackError, loadData]);
+  }, [emptyMessage, fallbackData, hasFallback, loadData, logContext]);
 
   useEffect(() => {
     loadSectionData();

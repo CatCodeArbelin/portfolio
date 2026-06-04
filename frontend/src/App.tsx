@@ -17,7 +17,10 @@ export function App() {
         <div className="sectionHeader">
           <p className="eyebrow">Status</p>
           <h2 id="health-title">Backend health</h2>
-          <p>Существующая проверка backend health endpoint оставлена на главной странице.</p>
+          <p>
+            Мягкая проверка системного статуса: online при доступном backend и спокойный dev mode,
+            если API сейчас не запущен.
+          </p>
         </div>
         <HealthStatus />
       </section>

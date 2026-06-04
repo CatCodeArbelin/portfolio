@@ -1,50 +1,58 @@
-import { useCallback } from 'react';
-import { getServices } from '../api/portfolio';
+import { getServices, type ServiceCard } from '../api/portfolio';
 import { useSectionData } from './useSectionData';
 
+const serviceFallbacks: ServiceCard[] = [
+  {
+    title: 'Telegram Bots',
+    features: ['Каталоги, заявки и уведомления', 'Админ-сценарии без лишней сложности', 'Интеграция с backend API'],
+  },
+  {
+    title: 'AI Automation',
+    features: ['AI-помощники для рутины', 'Обработка входящих запросов', 'Интеграция с OpenAI API'],
+  },
+  {
+    title: 'Backend API',
+    features: ['FastAPI и REST endpoints', 'PostgreSQL / Redis по необходимости', 'Docker-ready структура'],
+  },
+  {
+    title: 'Internal Tools',
+    features: ['Мини-CRM и панели процессов', 'Служебные интеграции', 'Простые интерфейсы для команды'],
+  },
+];
+
 export function ServicesSection() {
-  const getFallbackError = useCallback(() => 'Не удалось загрузить услуги.', []);
-  const [servicesState, retryLoadServices] = useSectionData({
+  const [servicesState] = useSectionData({
     loadData: getServices,
-    getFallbackError,
+    fallbackData: serviceFallbacks,
+    emptyMessage: 'Список услуг пока не опубликован.',
+    logContext: 'ServicesSection',
   });
+
+  const services =
+    servicesState.status === 'ready' && servicesState.source === 'fallback'
+      ? servicesState.data
+      : serviceFallbacks;
 
   return (
     <section className="sectionCard" id="services" aria-labelledby="services-title">
       <div className="sectionHeader">
         <p className="eyebrow">Services</p>
         <h2 id="services-title">Чем могу быть полезен</h2>
-        <p>Фокус на понятных backend-сервисах, Telegram-сценариях и автоматизации процессов.</p>
+        <p>Четыре практичных направления: боты, AI-сценарии, backend API и внутренние инструменты.</p>
       </div>
 
-      {servicesState.status === 'loading' && (
-        <p className="stateMessage" aria-live="polite">
-          Загружаем услуги…
-        </p>
-      )}
-      {servicesState.status === 'error' && (
-        <div className="stateMessage stateMessageError" role="status">
-          <p>Услуги временно недоступны, остальные секции сайта продолжают работать.</p>
-          <p className="stateDetails">{servicesState.message}</p>
-          <button className="stateRetryButton" type="button" onClick={retryLoadServices}>
-            Повторить загрузку услуг
-          </button>
-        </div>
-      )}
-      {servicesState.status === 'ready' && (
-        <div className="cardGrid">
-          {servicesState.data.map((service) => (
-            <article className="contentCard" key={service.title}>
-              <h3>{service.title}</h3>
-              <ul>
-                {service.features.map((feature) => (
-                  <li key={feature}>{feature}</li>
-                ))}
-              </ul>
-            </article>
-          ))}
-        </div>
-      )}
+      <div className="cardGrid servicesGrid">
+        {services.slice(0, 4).map((service) => (
+          <article className="contentCard serviceCard" key={service.title}>
+            <h3>{service.title}</h3>
+            <ul>
+              {service.features.map((feature) => (
+                <li key={feature}>{feature}</li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
     </section>
   );
 }
