@@ -82,11 +82,11 @@ p {
 }
 
 h1 {
-  font-size: clamp(3.25rem, 17vw, 8.4rem);
-  line-height: 0.88;
+  font-size: clamp(3.4rem, 15vw, 8.2rem);
+  line-height: 0.9;
   margin-bottom: 0;
-  max-width: 860px;
-  letter-spacing: -0.085em;
+  max-width: 900px;
+  letter-spacing: -0.08em;
 }
 
 h2 {
@@ -256,10 +256,11 @@ h4 {
 
 .heroTerminal {
   position: relative;
-  min-height: 300px;
+  min-height: 340px;
   overflow: hidden;
   background:
-    linear-gradient(160deg, rgba(8, 12, 18, 0.92), rgba(15, 22, 34, 0.78)),
+    radial-gradient(circle at 85% 12%, rgba(141, 245, 182, 0.12), transparent 8rem),
+    linear-gradient(160deg, rgba(8, 12, 18, 0.94), rgba(15, 22, 34, 0.8)),
     repeating-linear-gradient(0deg, rgba(75, 240, 255, 0.035), rgba(75, 240, 255, 0.035) 1px, transparent 1px, transparent 9px);
   border: 1px solid rgba(75, 240, 255, 0.22);
   border-radius: var(--radius-xl);
@@ -267,10 +268,33 @@ h4 {
   padding: 18px;
 }
 
+.heroTerminal::before,
+.heroTerminal::after {
+  position: absolute;
+  pointer-events: none;
+  content: "";
+}
+
+.heroTerminal::before {
+  inset: 58px 18px auto;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(75, 240, 255, 0.34), transparent);
+}
+
+.heroTerminal::after {
+  width: 180px;
+  height: 180px;
+  right: -70px;
+  bottom: -70px;
+  border-radius: 50%;
+  background: rgba(183, 140, 255, 0.12);
+  filter: blur(12px);
+}
+
 .terminalChrome {
   display: flex;
   gap: 8px;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 
 .terminalChrome span {
@@ -290,8 +314,18 @@ h4 {
 }
 
 .heroTerminal pre,
+.terminalTitle,
+.terminalBadges,
 .schemeBox {
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+
+.terminalTitle {
+  color: var(--text-soft);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  margin-bottom: 18px;
+  text-transform: uppercase;
 }
 
 .heroTerminal pre {
@@ -302,12 +336,29 @@ h4 {
   white-space: pre-wrap;
 }
 
+.terminalBadges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.terminalBadges span {
+  border: 1px solid rgba(141, 245, 182, 0.24);
+  border-radius: var(--radius-pill);
+  color: #d9ffe8;
+  font-size: 0.72rem;
+  font-weight: 900;
+  padding: 6px 10px;
+  text-transform: uppercase;
+}
+
 .catPattern {
   position: absolute;
   right: 18px;
   bottom: 18px;
-  min-width: 210px;
-  min-height: 116px;
+  min-width: 214px;
+  min-height: 120px;
   border: 1px solid rgba(183, 140, 255, 0.26);
   border-radius: 22px;
   background: rgba(183, 140, 255, 0.06);
@@ -617,8 +668,8 @@ h4 {
   }
 
   .hero {
-    grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.7fr);
-    gap: 34px;
+    grid-template-columns: minmax(0, 1.12fr) minmax(320px, 0.68fr);
+    gap: 38px;
     min-height: calc(100vh - 64px);
   }
 
