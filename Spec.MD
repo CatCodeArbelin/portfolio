@@ -1363,10 +1363,14 @@ docker compose up --build
 * health endpoint.
 
 На Этапе 1 PostgreSQL нужно поднять в `docker-compose.yml` и передать `DATABASE_URL`
-в backend через переменные окружения. Не создавать SQLAlchemy models, Alembic config
-и repositories до Этапа 2. Если health endpoint остаётся частью базового skeleton,
-он может проверять только готовность backend; проверку PostgreSQL можно оставить
-на healthcheck Docker Compose или реализовать минимальным lightweight-запросом без ORM.
+в backend через переменные окружения. Redis нужно поднять отдельным сервисом
+`docker-compose.yml` с Docker Compose healthcheck и передать `REDIS_URL` в backend
+через переменные окружения. Не создавать SQLAlchemy models, Alembic config
+и repositories до Этапа 2. Не создавать `cache_service.py`, `rate_limit_service.py`,
+ARQ worker и queue logic до этапов AI Generator и security/rate limit. Если health endpoint
+остаётся частью базового skeleton, он может проверять только готовность backend; проверку
+PostgreSQL и Redis можно оставить на healthcheck Docker Compose или реализовать
+минимальным lightweight-запросом без ORM/cache/queue-слоёв.
 
 ### Этап 2. Database
 
