@@ -3,12 +3,12 @@ services:
     build:
       context: ./backend
     environment:
-      APP_NAME: CatCode Portfolio API
-      APP_VERSION: 0.1.0
-      API_PREFIX: /api/v1
-      CORS_ORIGINS: '["http://localhost:5173"]'
-      DATABASE_URL: postgresql+asyncpg://catcode:catcode@postgres:5432/catcode
-      REDIS_URL: redis://redis:6379/0
+      APP_NAME: "${APP_NAME:-CatCode Portfolio API}"
+      APP_VERSION: "${APP_VERSION:-0.1.0}"
+      API_PREFIX: "${API_PREFIX:-/api/v1}"
+      CORS_ORIGINS: '${CORS_ORIGINS:-["http://localhost:5173"]}'
+      DATABASE_URL: "${DATABASE_URL:-postgresql+asyncpg://catcode:catcode@postgres:5432/catcode}"
+      REDIS_URL: "${REDIS_URL:-redis://redis:6379/0}"
     depends_on:
       postgres:
         condition: service_healthy
@@ -36,15 +36,15 @@ services:
   postgres:
     image: postgres:16-alpine
     environment:
-      POSTGRES_DB: catcode
-      POSTGRES_USER: catcode
-      POSTGRES_PASSWORD: catcode
+      POSTGRES_DB: "${POSTGRES_DB:-catcode}"
+      POSTGRES_USER: "${POSTGRES_USER:-catcode}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-catcode}"
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U catcode -d catcode"]
+      test: ["CMD-SHELL", 'pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"']
       interval: 10s
       timeout: 5s
       retries: 5
