@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import { getPortfolioApiErrorDetails } from '../api/portfolio';
+
 export type SectionDataState<T> =
   | { status: 'loading' }
   | { status: 'ready'; data: T; source: 'api' | 'fallback' }
@@ -47,7 +49,10 @@ export function useSectionData<T>({
         }
       })
       .catch((error: unknown) => {
-        console.error(`${logContext}: portfolio API недоступен, используем мягкое состояние.`, error);
+        console.warn(
+          `${logContext}: portfolio API недоступен, показываем fallback или empty-state.`,
+          getPortfolioApiErrorDetails(error),
+        );
 
         if (requestIdRef.current === requestId) {
           if (hasFallback) {

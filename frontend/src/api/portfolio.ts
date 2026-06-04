@@ -27,6 +27,37 @@ const PROJECTS_ENDPOINT = '/api/v1/projects';
 const DESIGN_CARDS_ENDPOINT = '/api/v1/design-cards';
 const SERVICES_ENDPOINT = '/api/v1/services';
 
+export class PortfolioApiError extends Error {
+  constructor(
+    message: string,
+    public readonly endpoint: string,
+    public readonly status?: number,
+  ) {
+    super(message);
+    this.name = 'PortfolioApiError';
+  }
+}
+
+export function getPortfolioApiErrorDetails(error: unknown): Record<string, unknown> {
+  if (error instanceof PortfolioApiError) {
+    return {
+      name: error.name,
+      message: error.message,
+      endpoint: error.endpoint,
+      status: error.status,
+    };
+  }
+
+  if (error instanceof Error) {
+    return {
+      name: error.name,
+      message: error.message,
+    };
+  }
+
+  return { message: String(error) };
+}
+
 async function fetchJson<T>(endpoint: string, errorContext: string): Promise<T> {
   const response = await fetch(endpoint, {
     headers: {
@@ -39,7 +70,11 @@ async function fetchJson<T>(endpoint: string, errorContext: string): Promise<T> 
       ? `${response.status} ${response.statusText}`
       : `${response.status}`;
 
-    throw new Error(`${errorContext} returned HTTP ${statusDescription}`);
+    throw new PortfolioApiError(
+      `${errorContext} returned HTTP ${statusDescription}`,
+      endpoint,
+      response.status,
+    );
   }
 
   return response.json() as Promise<T>;

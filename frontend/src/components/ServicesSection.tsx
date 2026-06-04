@@ -28,10 +28,7 @@ export function ServicesSection() {
     logContext: 'ServicesSection',
   });
 
-  const services =
-    servicesState.status === 'ready' && servicesState.source === 'fallback'
-      ? servicesState.data
-      : serviceFallbacks;
+  const services = servicesState.status === 'ready' ? servicesState.data : serviceFallbacks;
 
   return (
     <section className="sectionCard" id="services" aria-labelledby="services-title">

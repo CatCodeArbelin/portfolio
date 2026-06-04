@@ -54,10 +54,7 @@ export function DesignCardsSection() {
     logContext: 'DesignCardsSection',
   });
 
-  const cards =
-    designCardsState.status === 'ready' && designCardsState.source === 'fallback'
-      ? designCardsState.data
-      : designCardFallbacks;
+  const cards = designCardsState.status === 'ready' ? designCardsState.data : designCardFallbacks;
 
   return (
     <section className="sectionCard" aria-labelledby="design-cards-title">
