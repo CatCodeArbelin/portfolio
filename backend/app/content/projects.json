@@ -1,0 +1,44 @@
+[
+  {
+    "slug": "telegram-jewelry-shop",
+    "title": "Telegram-магазин украшений",
+    "description": "Telegram-бот с каталогом, оформлением заказов, оплатой и административными уведомлениями.",
+    "stack": [
+      "Python",
+      "aiogram",
+      "Telegram Payments",
+      "ЮKassa",
+      "Docker",
+      "SQLite / PostgreSQL"
+    ],
+    "status": "client-prototype"
+  },
+  {
+    "slug": "ai-assistant-automation",
+    "title": "AI Assistant / Automation",
+    "description": "AI-ассистент для автоматизации обработки пользовательских запросов и бизнес-сценариев.",
+    "stack": [
+      "Python",
+      "FastAPI",
+      "OpenAI API",
+      "Redis",
+      "Docker"
+    ],
+    "status": "demo"
+  },
+  {
+    "slug": "dota-auto-chess-tournament-platform",
+    "title": "Dota Auto Chess Tournament Platform",
+    "description": "Платформа для проведения турниров по Dota Auto Chess.",
+    "stack": [
+      "Python",
+      "FastAPI",
+      "PostgreSQL",
+      "SQLAlchemy",
+      "Docker",
+      "Redis"
+    ],
+    "status": "pet-project",
+    "github_url": "https://github.com/CatCodeArbelin/dacarbelin"
+  }
+]
