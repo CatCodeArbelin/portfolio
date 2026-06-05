@@ -1,10 +1,8 @@
 const terminalLines = [
-  '$ whoami',
-  'catcode / arbelin',
-  '$ focus --current',
-  'AI backend · Telegram bots · automation',
-  '$ build --with-care',
-  'clean APIs + helpful internal tools',
+  'whoami  catcode / arbelin',
+  'stack   FastAPI · React · Docker',
+  'focus   bots · AI backend · automation',
+  'status  available for focused builds',
 ];
 
 export function HeroSection() {
@@ -33,23 +31,37 @@ export function HeroSection() {
       </div>
 
       <aside className="heroTerminal" aria-hidden="true">
+        <div className="circuitLines">
+          <span />
+          <span />
+          <span />
+        </div>
         <div className="terminalChrome">
           <span />
           <span />
           <span />
         </div>
-        <div className="terminalTitle">catcode.dev — terminal</div>
-        <pre>{terminalLines.join('\n')}</pre>
-        <div className="terminalBadges">
-          <span>FastAPI</span>
-          <span>Bots</span>
-          <span>AI</span>
+        <div className="terminalTitle">
+          <span>catcode.dev — dashboard</span>
+          <span className="terminalPrompt">&gt;_</span>
         </div>
-        <div className="catPattern">
+        <div className="terminalPanel">
+          <pre>{terminalLines.join('\n')}</pre>
+        </div>
+        <div className="terminalBadges">
+          <span>API online</span>
+          <span>Bot-ready</span>
+          <span>AI workflow</span>
+        </div>
+        <div className="catOutline">
           <span className="catEar left" />
           <span className="catEar right" />
-          <span className="catFace">&lt;/ᓚᘏᗢ&gt;</span>
-          <span className="codeGlyph">{'{ api: "clean" }'}</span>
+          <span className="catFace">ᓚᘏᗢ</span>
+          <span className="catWhiskers">&lt; / &gt;</span>
+        </div>
+        <div className="devMetric">
+          <span>latency mindset</span>
+          <strong>clean APIs</strong>
         </div>
       </aside>
     </section>
