@@ -1,32 +1,38 @@
 import { useEffect, useState } from 'react';
-import { getBackendHealth, type HealthResponse } from '../api/health';
+import { getBackendHealth } from '../api/health';
 
-type HealthState =
-  | { status: 'loading' }
-  | { status: 'online'; data: HealthResponse }
-  | { status: 'unavailable' };
+type HealthState = 'loading' | 'online' | 'unavailable';
 
 export function HealthStatus() {
-  const [healthState, setHealthState] = useState<HealthState>({ status: 'loading' });
-
-  async function loadHealth() {
-    setHealthState({ status: 'loading' });
-
-    try {
-      const data = await getBackendHealth();
-      console.info('HealthStatus: backend online.', data);
-      setHealthState({ status: 'online', data });
-    } catch (error) {
-      console.error('HealthStatus: backend health недоступен, показываем мягкий dev state.', error);
-      setHealthState({ status: 'unavailable' });
-    }
-  }
+  const [healthState, setHealthState] = useState<HealthState>('loading');
 
   useEffect(() => {
+    let isMounted = true;
+
+    async function loadHealth() {
+      try {
+        await getBackendHealth();
+
+        if (isMounted) {
+          setHealthState('online');
+        }
+      } catch (error) {
+        console.error('HealthStatus: backend health недоступен.', error);
+
+        if (isMounted) {
+          setHealthState('unavailable');
+        }
+      }
+    }
+
     void loadHealth();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
-  if (healthState.status === 'loading') {
+  if (healthState === 'loading') {
     return (
       <section className="healthCard healthCardNeutral" aria-live="polite">
         <p className="healthLabel">System status</p>
@@ -35,7 +41,7 @@ export function HealthStatus() {
     );
   }
 
-  if (healthState.status === 'unavailable') {
+  if (healthState === 'unavailable') {
     return (
       <section className="healthCard healthCardNeutral" aria-live="polite">
         <p className="healthLabel">System status</p>
@@ -43,9 +49,6 @@ export function HealthStatus() {
         <p className="healthHint">
           Портфолио остаётся доступным на fallback-данных. Технические детали сохранены в console.
         </p>
-        <button className="healthButton" type="button" onClick={loadHealth}>
-          Проверить снова
-        </button>
       </section>
     );
   }
@@ -54,19 +57,7 @@ export function HealthStatus() {
     <section className="healthCard healthCardOk" aria-live="polite">
       <p className="healthLabel">System status</p>
       <p className="healthMessage">online</p>
-      <dl className="healthMeta">
-        <div>
-          <dt>App</dt>
-          <dd>{healthState.data.app}</dd>
-        </div>
-        <div>
-          <dt>Version</dt>
-          <dd>{healthState.data.version}</dd>
-        </div>
-      </dl>
-      <button className="healthButton" type="button" onClick={loadHealth}>
-        Обновить статус
-      </button>
+      <p className="healthHint">Backend отвечает успешно.</p>
     </section>
   );
 }
