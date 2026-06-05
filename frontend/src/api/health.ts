@@ -14,7 +14,7 @@ export async function getBackendHealth(): Promise<HealthResponse> {
   });
 
   if (!response.ok) {
-    throw new Error(`Backend health endpoint вернул HTTP ${response.status}`);
+    throw new Error('Backend health endpoint is unavailable');
   }
 
   return response.json() as Promise<HealthResponse>;
