@@ -48,7 +48,7 @@ const designCards: DesignCard[] = [
 
 export function DesignCardsSection() {
   return (
-    <section className="sectionCard" aria-labelledby="design-cards-title">
+    <section className="sectionCard" id="design-cards" aria-labelledby="design-cards-title">
       <div className="sectionHeader">
         <p className="eyebrow">System Design</p>
         <h2 id="design-cards-title">System design cards</h2>
