@@ -1,8 +1,8 @@
 [
   {
     "slug": "telegram-jewelry-shop",
-    "title": "Telegram-магазин украшений",
-    "description": "Telegram-бот с каталогом, оформлением заказов, оплатой и административными уведомлениями.",
+    "title": "Jewelry Telegram Bot",
+    "description": "Telegram-бот для витрины украшений: каталог, оформление заявки, платежный сценарий и админ-уведомления.",
     "stack": [
       "Python",
       "aiogram",
@@ -16,7 +16,7 @@
   {
     "slug": "ai-assistant-automation",
     "title": "AI Assistant / Automation",
-    "description": "AI-ассистент для автоматизации обработки пользовательских запросов и бизнес-сценариев.",
+    "description": "AI-ассистент для обработки пользовательских запросов и автоматизации повторяющихся бизнес-сценариев.",
     "stack": [
       "Python",
       "FastAPI",
@@ -29,7 +29,7 @@
   {
     "slug": "dota-auto-chess-tournament-platform",
     "title": "Dota Auto Chess Tournament Platform",
-    "description": "Платформа для проведения турниров по Dota Auto Chess.",
+    "description": "Платформа для проведения турниров по Dota Auto Chess: участники, структура матчей и базовая автоматизация процесса.",
     "stack": [
       "Python",
       "FastAPI",

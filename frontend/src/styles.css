@@ -538,6 +538,14 @@ h4 {
   margin-bottom: 0;
 }
 
+.cardMetaLabel {
+  color: var(--text-main);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .statusPill {
   width: fit-content;
   color: #bfffe8;

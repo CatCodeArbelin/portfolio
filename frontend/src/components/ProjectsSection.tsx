@@ -13,24 +13,24 @@ const projectFallbacks: Project[] = [
     slug: 'jewelry-telegram-bot',
     title: 'Jewelry Telegram Bot',
     description:
-      'Telegram-бот для витрины украшений: каталог, оформление заявки и админ-уведомления без выдуманных production-метрик.',
-    stack: ['Python', 'Telegram Bot API', 'FastAPI', 'PostgreSQL'],
+      'Telegram-бот для витрины украшений: каталог, оформление заявки, платежный сценарий и админ-уведомления.',
+    stack: ['Python', 'aiogram', 'Telegram Payments', 'ЮKassa', 'Docker', 'SQLite / PostgreSQL'],
     status: 'client-prototype',
   },
   {
     slug: 'ai-assistant-automation',
     title: 'AI Assistant / Automation',
     description:
-      'AI-сценарии для обработки повторяющихся запросов, подготовки ответов и интеграции с существующими рабочими процессами.',
-    stack: ['Python', 'OpenAI API', 'FastAPI', 'Docker'],
+      'AI-ассистент для обработки пользовательских запросов и автоматизации повторяющихся бизнес-сценариев.',
+    stack: ['Python', 'FastAPI', 'OpenAI API', 'Redis', 'Docker'],
     status: 'demo',
   },
   {
     slug: 'dota-auto-chess-tournament-platform',
     title: 'Dota Auto Chess Tournament Platform',
     description:
-      'Платформа для турнирных сценариев Dota Auto Chess: структура матчей, участники и базовая автоматизация процесса.',
-    stack: ['React', 'TypeScript', 'Python', 'Docker'],
+      'Платформа для проведения турниров по Dota Auto Chess: участники, структура матчей и базовая автоматизация процесса.',
+    stack: ['Python', 'FastAPI', 'PostgreSQL', 'SQLAlchemy', 'Docker', 'Redis'],
     status: 'pet-project',
     github_url: 'https://github.com/CatCodeArbelin/dacarbelin',
   },
@@ -62,16 +62,17 @@ export function ProjectsSection() {
           <article className="contentCard projectCard" key={project.slug}>
             <div className="cardTitleRow">
               <h3>{project.title}</h3>
-              <span className="statusPill">{statusLabels[project.status]}</span>
+              <span className="statusPill">Статус: {statusLabels[project.status]}</span>
             </div>
             <p>{project.description}</p>
+            <p className="cardMetaLabel">Стек</p>
             <ul className="inlineList" aria-label={`Стек проекта ${project.title}`}>
               {project.stack.map((stackItem) => (
                 <li key={stackItem}>{stackItem}</li>
               ))}
             </ul>
             {project.github_url && (
-              <a className="cardLink" href={project.github_url}>
+              <a className="cardLink" href={project.github_url} target="_blank" rel="noreferrer">
                 GitHub
               </a>
             )}
