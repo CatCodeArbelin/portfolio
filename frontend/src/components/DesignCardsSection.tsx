@@ -7,6 +7,14 @@ type DesignCard = {
   keyDecisions: string[];
 };
 
+function getSchemeNodes(scheme: string): string[] {
+  return scheme
+    .split('\n')[0]
+    .split('→')
+    .map((node) => node.trim())
+    .filter(Boolean);
+}
+
 const designCards: DesignCard[] = [
   {
     slug: 'telegram-shop-bot',
@@ -71,6 +79,14 @@ export function DesignCardsSection() {
                   <span />
                   <span />
                   <strong>architecture.flow</strong>
+                </div>
+                <div className="schemeFlowLabels" aria-hidden="true">
+                  {getSchemeNodes(card.scheme).map((node, index, nodes) => (
+                    <span className="schemeFlowNode" key={`${card.slug}-${node}`}>
+                      {node}
+                      {index < nodes.length - 1 ? <i className="schemeConnector" /> : null}
+                    </span>
+                  ))}
                 </div>
                 <pre className="schemeBox" aria-label={`Короткая текстовая схема ${card.title}`}>{card.scheme}</pre>
               </div>
