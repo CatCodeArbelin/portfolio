@@ -715,7 +715,12 @@ h4 {
 }
 
 .cardGrid,
-.designGrid,
+.designGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
 .dashboardGrid,
 .healthMeta {
   display: grid;
@@ -971,10 +976,6 @@ h4 {
   background: rgba(178, 220, 255, 0.07);
   border: 1px solid rgba(178, 220, 255, 0.16);
   border-radius: var(--radius-pill);
-}
-
-.designGrid {
-  grid-template-columns: 1fr;
 }
 
 .designCard {
@@ -1299,12 +1300,18 @@ h4 {
 
 }
 
+@media (max-width: 640px) {
+  .cardGrid,
+  .designGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (min-width: 560px) {
   .heroActions {
     gap: 12px;
   }
 
-  .cardGrid,
   .healthMeta {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1319,15 +1326,6 @@ h4 {
 
   .heroTerminal {
     align-self: center;
-  }
-
-  .servicesGrid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
-  .projectsGrid,
-  .designGrid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
