@@ -9,7 +9,7 @@ const stackItems = [
   'Telegram Bot API',
   'OpenAI API',
   'Linux',
-];
+] as const;
 
 export function StackBadges() {
   return (
@@ -25,7 +25,7 @@ export function StackBadges() {
       <ul className="badgeList" aria-label="Технологический стек">
         {stackItems.map((item) => (
           <li className="stackBadge" key={item}>
-            {item}
+            <span>{item}</span>
           </li>
         ))}
       </ul>
