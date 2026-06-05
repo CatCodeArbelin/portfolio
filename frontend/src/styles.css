@@ -716,6 +716,7 @@ h4 {
 
 .cardGrid,
 .designGrid,
+.dashboardGrid,
 .healthMeta {
   display: grid;
   gap: 12px;
@@ -1033,6 +1034,45 @@ h4 {
   text-transform: uppercase;
 }
 
+.schemeFlowLabels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  padding: 12px;
+  background:
+    linear-gradient(90deg, rgba(75, 240, 255, 0.08), rgba(183, 140, 255, 0.06)),
+    rgba(3, 7, 12, 0.32);
+  border-bottom: 1px solid rgba(178, 220, 255, 0.1);
+}
+
+.schemeFlowNode {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  color: #eafff2;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.schemeFlowNode::before {
+  width: 7px;
+  height: 7px;
+  content: "";
+  background: var(--green);
+  border-radius: 50%;
+  box-shadow: 0 0 12px rgba(141, 245, 182, 0.36);
+}
+
+.schemeConnector {
+  width: 18px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--green), var(--cyan));
+  box-shadow: 0 0 10px rgba(75, 240, 255, 0.28);
+}
+
 .schemeBox {
   padding: 16px;
   margin: 0;
@@ -1044,6 +1084,106 @@ h4 {
   background:
     linear-gradient(90deg, rgba(141, 245, 182, 0.09) 0 2px, transparent 2px) 0 0 / 22px 100%,
     rgba(3, 7, 12, 0.46);
+}
+
+.apiPanel {
+  display: grid;
+  gap: 14px;
+  background:
+    linear-gradient(135deg, rgba(12, 20, 31, 0.94), rgba(5, 9, 15, 0.92)),
+    radial-gradient(circle at 88% 0%, rgba(75, 240, 255, 0.15), transparent 12rem);
+}
+
+.apiPanelHeader {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.apiPanelBadge {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  min-height: 28px;
+  padding: 6px 10px;
+  color: var(--cyan);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  background: rgba(75, 240, 255, 0.08);
+  border: 1px solid rgba(75, 240, 255, 0.2);
+  border-radius: var(--radius-pill);
+}
+
+.dashboardGrid {
+  gap: 10px;
+}
+
+.statusRow {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  padding: 12px;
+  background: rgba(178, 220, 255, 0.055);
+  border: 1px solid rgba(178, 220, 255, 0.1);
+  border-radius: 14px;
+}
+
+.statusRow strong,
+.statusRow span,
+.statusRow em {
+  display: block;
+}
+
+.statusRow strong {
+  margin-bottom: 3px;
+  color: #f7fbff;
+  font-size: 0.9rem;
+}
+
+.statusRow span {
+  color: var(--text-soft);
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.statusRow em {
+  align-self: start;
+  padding: 5px 8px;
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  font-style: normal;
+  font-weight: 900;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(178, 220, 255, 0.11);
+  border-radius: var(--radius-pill);
+}
+
+.statusDot {
+  width: 10px;
+  height: 10px;
+  background: var(--text-soft);
+  border-radius: 50%;
+  box-shadow: 0 0 16px rgba(178, 220, 255, 0.2);
+}
+
+.statusDot-ok {
+  background: var(--green);
+  box-shadow: 0 0 18px rgba(141, 245, 182, 0.36);
+}
+
+.statusDot-pending {
+  background: var(--cyan);
+  box-shadow: 0 0 18px rgba(75, 240, 255, 0.34);
+}
+
+.statusDot-neutral {
+  background: var(--violet);
+  box-shadow: 0 0 18px rgba(183, 140, 255, 0.28);
 }
 
 .healthCardOk {
@@ -1142,6 +1282,21 @@ h4 {
   .statusPill {
     font-size: 0.84rem;
   }
+
+  .statusRow {
+    grid-template-columns: 1fr;
+  }
+
+  .apiPanelHeader {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .apiPanelBadge,
+  .statusRow em {
+    width: fit-content;
+  }
+
 }
 
 @media (min-width: 560px) {
