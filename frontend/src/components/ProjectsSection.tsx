@@ -59,21 +59,25 @@ export function ProjectsSection() {
 
       <div className="cardGrid projectsGrid">
         {projects.map((project) => (
-          <article className="contentCard projectCard" key={project.slug}>
-            <div className="cardTitleRow">
-              <h3>{project.title}</h3>
-              <span className="statusPill">Статус: {statusLabels[project.status]}</span>
-            </div>
-            <p>{project.description}</p>
-            <p className="cardMetaLabel">Стек</p>
-            <ul className="inlineList" aria-label={`Стек проекта ${project.title}`}>
+          <article className="contentCard projectCard accentGlow" key={project.slug}>
+            <header className="projectCardHeader">
+              <div>
+                <p className="compactLabel">{project.slug}</p>
+                <h3>{project.title}</h3>
+              </div>
+              <span className="statusPill compactChip">{statusLabels[project.status]}</span>
+            </header>
+            <p className="projectDescription">{project.description}</p>
+            <ul className="inlineList compactChipList" aria-label={`Стек проекта ${project.title}`}>
               {project.stack.map((stackItem) => (
-                <li key={stackItem}>{stackItem}</li>
+                <li className="compactChip" key={stackItem}>
+                  {stackItem}
+                </li>
               ))}
             </ul>
             {project.github_url && (
-              <a className="cardLink" href={project.github_url} target="_blank" rel="noreferrer">
-                GitHub
+              <a className="cardLink projectGithubLink" href={project.github_url} target="_blank" rel="noreferrer">
+                GitHub ↗
               </a>
             )}
           </article>

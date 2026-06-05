@@ -22,6 +22,20 @@ const serviceFallbacks: ServiceCard[] = [
 
 const serviceTitles = new Set<string>(serviceFallbacks.map((service) => service.title));
 
+const serviceMarkers: Record<ServiceCard['title'], string> = {
+  'Telegram Bots': '✈',
+  'AI Automation': '✦',
+  'Backend API': '{}',
+  'Internal Tools': '▣',
+};
+
+const serviceAccentClasses: Record<ServiceCard['title'], string> = {
+  'Telegram Bots': 'accentCyan',
+  'AI Automation': 'accentViolet',
+  'Backend API': 'accentGreen',
+  'Internal Tools': 'accentCyan',
+};
+
 function getCompatibleFeatures(service: unknown, title: ServiceCard['title']): string[] | undefined {
   if (!service || typeof service !== 'object' || !('title' in service) || !('features' in service)) {
     return undefined;
@@ -85,8 +99,13 @@ export function ServicesSection() {
 
       <div className="cardGrid servicesGrid">
         {services.map((service) => (
-          <article className="contentCard serviceCard" key={service.title}>
-            <h3>{service.title}</h3>
+          <article className={`contentCard serviceCard ${serviceAccentClasses[service.title]}`} key={service.title}>
+            <div className="serviceCardHeader">
+              <span className="iconBox" aria-hidden="true">
+                {serviceMarkers[service.title]}
+              </span>
+              <h3>{service.title}</h3>
+            </div>
             <ul>
               {service.features.map((feature) => (
                 <li key={feature}>{feature}</li>
