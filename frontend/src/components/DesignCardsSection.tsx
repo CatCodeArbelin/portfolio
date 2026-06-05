@@ -65,9 +65,15 @@ export function DesignCardsSection() {
             </div>
             <div className="designBlock">
               <h4>Схема</h4>
-              <pre className="schemeBox" aria-label={`Короткая текстовая схема ${card.title}`}>
-                {card.scheme}
-              </pre>
+              <div className="schemePanel">
+                <div className="schemePanelBar" aria-hidden="true">
+                  <span />
+                  <span />
+                  <span />
+                  <strong>architecture.flow</strong>
+                </div>
+                <pre className="schemeBox" aria-label={`Короткая текстовая схема ${card.title}`}>{card.scheme}</pre>
+              </div>
             </div>
             <div className="designBlock">
               <h4>Стек</h4>
