@@ -73,7 +73,7 @@ export function DesignCardsSection() {
             </div>
             <div className="designBlock">
               <h4>Схема</h4>
-              <div className="schemePanel">
+              <div className="schema-block schemePanel">
                 <div className="schemePanelBar" aria-hidden="true">
                   <span />
                   <span />
@@ -88,7 +88,7 @@ export function DesignCardsSection() {
                     </span>
                   ))}
                 </div>
-                <pre className="schemeBox" aria-label={`Короткая текстовая схема ${card.title}`}>{card.scheme}</pre>
+                <pre className="schemeBox" aria-label={`Короткая текстовая схема ${card.title}`}><code>{card.scheme}</code></pre>
               </div>
             </div>
             <div className="designBlock">
