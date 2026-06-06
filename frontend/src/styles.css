@@ -639,7 +639,9 @@ h4 {
   min-width: 0;
   width: 100%;
   max-width: 100%;
+  max-height: 154px;
   padding: 16px;
+  overflow: hidden;
   background: rgba(4, 8, 15, 0.58);
   border: 1px solid rgba(75, 240, 255, 0.18);
   border-radius: var(--radius-lg);
@@ -662,10 +664,11 @@ h4 {
 .heroTerminal pre {
   max-width: 100%;
   margin: 0 0 0 18px;
-  overflow-wrap: normal;
+  overflow-wrap: anywhere;
   color: #d9fff1;
-  font-size: clamp(0.82rem, 2vw, 0.96rem);
-  line-height: 1.72;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: clamp(0.72rem, 1.8vw, 0.82rem);
+  line-height: 1.5;
   white-space: pre-wrap;
 }
 
@@ -1484,6 +1487,27 @@ h4 {
     width: fit-content;
   }
 
+}
+
+
+@media (max-width: 859px) {
+  .catOutline,
+  .devMetric {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    z-index: 1;
+  }
+
+  .catOutline {
+    width: min(100%, 210px);
+    margin: 16px 0 0 auto;
+  }
+
+  .devMetric {
+    width: min(100%, 184px);
+    margin: 10px 0 0 auto;
+  }
 }
 
 @media (max-width: 640px) {
