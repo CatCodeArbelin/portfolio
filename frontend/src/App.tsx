@@ -12,20 +12,30 @@ export function App() {
       <HeaderNav />
       <HeroSection />
       <StackBadges />
-      <ServicesSection />
-      <ProjectsSection />
-      <DesignCardsSection />
-      <section className="sectionCard" id="status" aria-labelledby="health-title">
-        <div className="sectionHeader">
-          <p className="eyebrow">Status</p>
-          <h2 id="health-title">Backend health</h2>
-          <p>
-            Мягкая проверка системного статуса: online при доступном backend и спокойный dev mode,
-            если API сейчас не запущен.
-          </p>
+      <div className="dashboardLayout" aria-label="Portfolio dashboard">
+        <div className="dashboardBlockWide">
+          <ServicesSection />
         </div>
-        <HealthStatus />
-      </section>
+        <div className="dashboardBlockTall">
+          <ProjectsSection />
+        </div>
+        <div className="dashboardBlockWide">
+          <DesignCardsSection />
+        </div>
+        <div className="dashboardBlockCompact">
+          <section className="sectionCard" id="status" aria-labelledby="health-title">
+            <div className="sectionHeader">
+              <p className="eyebrow">Status</p>
+              <h2 id="health-title">Backend health</h2>
+              <p>
+                Мягкая проверка системного статуса: online при доступном backend и спокойный dev mode,
+                если API сейчас не запущен.
+              </p>
+            </div>
+            <HealthStatus />
+          </section>
+        </div>
+      </div>
     </main>
   );
 }
