@@ -22,11 +22,11 @@ const serviceFallbacks: ServiceCard[] = [
 
 const serviceTitles = new Set<string>(serviceFallbacks.map((service) => service.title));
 
-const serviceMarkers: Record<ServiceCard['title'], string> = {
-  'Telegram Bots': '✈',
-  'AI Automation': '✦',
-  'Backend API': '{}',
-  'Internal Tools': '▣',
+const serviceMarkers: Record<ServiceCard['title'], { label: string; glyph: string }> = {
+  'Telegram Bots': { label: 'bot route', glyph: '✈' },
+  'AI Automation': { label: 'ai spark', glyph: '✦' },
+  'Backend API': { label: 'api nodes', glyph: '{}' },
+  'Internal Tools': { label: 'tool grid', glyph: '▣' },
 };
 
 const serviceAccentClasses: Record<ServiceCard['title'], string> = {
@@ -64,6 +64,20 @@ function getCompatibleFeatures(service: unknown, title: ServiceCard['title']): s
   );
 
   return features.length > 0 ? features : undefined;
+}
+
+function ServiceIcon({ marker }: { marker: { label: string; glyph: string } }) {
+  return (
+    <span className="iconBox" aria-hidden="true" data-label={marker.label}>
+      <svg className="iconBoxSvg" viewBox="0 0 44 44" focusable="false">
+        <path className="iconBoxTrack" d="M8 30.5C14.5 18 24 13.5 36 12" />
+        <path className="iconBoxTrack iconBoxTrackSoft" d="M9 14h8M27 31h8" />
+        <circle className="iconBoxNode" cx="12" cy="28" r="3.2" />
+        <circle className="iconBoxNode" cx="34" cy="13" r="3.2" />
+      </svg>
+      <span className="iconBoxGlyph">{marker.glyph}</span>
+    </span>
+  );
 }
 
 function getStableServices(servicesStateData: ServiceCard[] | undefined): ServiceCard[] {
@@ -108,9 +122,7 @@ export function ServicesSection() {
         {services.map((service) => (
           <article className={`contentCard serviceCard ${serviceAccentClasses[service.title]}`} key={service.title}>
             <div className="serviceCardHeader">
-              <span className="iconBox" aria-hidden="true">
-                {serviceMarkers[service.title]}
-              </span>
+              <ServiceIcon marker={serviceMarkers[service.title]} />
               <h3>{service.title}</h3>
             </div>
             <p className="serviceDescription">{serviceDescriptions[service.title]}</p>
