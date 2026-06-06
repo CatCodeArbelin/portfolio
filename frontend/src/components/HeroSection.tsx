@@ -5,11 +5,23 @@ const terminalLines = [
   'status  open',
 ];
 
-const heroLinks = [
-  { label: 'Telegram', note: 'visual only' },
-  { href: 'https://github.com/CatCodeArbelin', label: 'GitHub', primary: true },
-  { label: 'AI Generator', note: 'preview' },
-  { label: 'API Playground', note: 'preview' },
+const heroMetrics = [
+  { label: 'API', value: 'REST' },
+  { label: 'Bots', value: 'TG' },
+  { label: 'AI', value: 'flows' },
+  { label: 'Deploy', value: 'Docker' },
+] as const;
+
+const heroTiles = [
+  {
+    icon: '<>',
+    href: 'https://github.com/CatCodeArbelin',
+    title: 'GitHub',
+    caption: 'код и репозитории',
+  },
+  { icon: '@', title: 'Telegram', caption: 'визуальный слот контакта' },
+  { icon: 'AI', title: 'AI Generator', caption: 'макет будущего блока' },
+  { icon: '/v1', title: 'API Playground', caption: 'макет будущего блока' },
 ] as const;
 
 export function HeroSection() {
@@ -19,29 +31,41 @@ export function HeroSection() {
         <p className="eyebrow">Independent Developer</p>
         <h1 id="page-title">CatCode / Arbelin</h1>
         <p className="heroSubtitle">AI Backend · Telegram Bots · Automation</p>
+        <div className="heroMetrics" aria-label="Ключевые направления">
+          {heroMetrics.map((metric) => (
+            <span className="heroMetric" key={metric.label}>
+              <strong>{metric.label}</strong>
+              <span>{metric.value}</span>
+            </span>
+          ))}
+        </div>
         <p className="lead">
           Разрабатываю backend-сервисы, Telegram-ботов и AI-автоматизации для бизнеса:
           проектирую API, связываю внешние сервисы и превращаю повторяющиеся процессы в
           надёжные внутренние инструменты.
         </p>
-        <div className="heroActions" aria-label="Основные ссылки и будущие интерактивные блоки">
-          {heroLinks.map((link) =>
-            'href' in link ? (
-              <a
-                className={link.primary ? 'primaryLink' : 'secondaryLink'}
-                href={link.href}
-                key={link.label}
-              >
-                {link.label}
+        <div className="heroActions" aria-label="Основные ссылки и визуальные слоты">
+          {heroTiles.map((tile) =>
+            'href' in tile ? (
+              <a className="heroActionTile" href={tile.href} key={tile.title}>
+                <span className="heroActionIcon">{tile.icon}</span>
+                <span>
+                  <strong>{tile.title}</strong>
+                  <small>{tile.caption}</small>
+                </span>
               </a>
             ) : (
               <span
-                className="secondaryLink visualOnlyLink"
+                className="heroActionTile visualOnlyTile"
                 aria-disabled="true"
-                key={link.label}
-                title={link.note}
+                key={tile.title}
+                title={tile.caption}
               >
-                {link.label}
+                <span className="heroActionIcon">{tile.icon}</span>
+                <span>
+                  <strong>{tile.title}</strong>
+                  <small>{tile.caption}</small>
+                </span>
               </span>
             ),
           )}
