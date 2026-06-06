@@ -2,54 +2,46 @@ type DesignCard = {
   slug: string;
   title: string;
   task: string;
-  scheme: string;
+  schemeNodes: string[];
   stack: string[];
   keyDecisions: string[];
 };
-
-function getSchemeNodes(scheme: string): string[] {
-  return scheme
-    .split('\n')[0]
-    .split('→')
-    .map((node) => node.trim())
-    .filter(Boolean);
-}
 
 const designCards: DesignCard[] = [
   {
     slug: 'telegram-shop-bot',
     title: 'Telegram Shop Bot',
-    task: 'Спроектировать понятный Telegram-сценарий для витрины товаров, оформления заявки и уведомления администратора.',
-    scheme: 'Пользователь → Telegram Bot → Backend API → PostgreSQL\n                              ↘ уведомление администратору',
+    task: 'Витрина, заявка и уведомление администратора в Telegram.',
+    schemeNodes: ['Telegram', 'API', 'DB'],
     stack: ['Python', 'Telegram Bot API', 'FastAPI', 'PostgreSQL', 'Docker'],
     keyDecisions: [
-      'Разделить обработчики Telegram-команд и бизнес-логику заявок.',
-      'Хранить заявки и их статусы в базе, а не в памяти процесса бота.',
-      'Показывать пользователю простые статусы без внутренних технических ошибок.',
+      'Команды отдельно от логики заявок.',
+      'Статусы заявок хранит база.',
+      'Пользователь видит простые статусы.',
     ],
   },
   {
     slug: 'ai-assistant',
     title: 'AI Assistant',
-    task: 'Собрать API-сценарий для подготовки черновиков ответов и автоматизации повторяющихся текстовых задач.',
-    scheme: 'Запрос пользователя → API validation → AI service → проверяемый черновик',
+    task: 'API для черновиков ответов и типовых текстовых задач.',
+    schemeNodes: ['Client', 'API', 'AI'],
     stack: ['Python', 'FastAPI', 'OpenAI API', 'Redis', 'Docker'],
     keyDecisions: [
-      'Валидировать входные данные до обращения к AI-провайдеру.',
-      'Оставлять человеку финальную проверку там, где результат влияет на ответственность.',
-      'Не сохранять секреты и служебные ключи во frontend-коде или тексте ответа.',
+      'Валидация до AI-запроса.',
+      'Финальная проверка остаётся за человеком.',
+      'Секреты не попадают во frontend.',
     ],
   },
   {
     slug: 'catcode-portfolio-architecture',
     title: 'CatCode Portfolio Architecture',
-    task: 'Показать портфолио как небольшой fullstack-проект с frontend, backend API и проверяемым health endpoint.',
-    scheme: 'React UI → Nginx/API proxy → FastAPI → portfolio content\n                                  ↘ /api/v1/health',
+    task: 'Небольшой fullstack-сайт с API и health check.',
+    schemeNodes: ['React', 'Proxy', 'FastAPI'],
     stack: ['React', 'TypeScript', 'FastAPI', 'Docker Compose', 'Linux'],
     keyDecisions: [
-      'Держать portfolio-контент отдельно от визуального слоя компонента.',
-      'Не добавлять будущие интерактивные модули до соответствующих этапов проекта.',
-      'Формулировать карточки без выдуманных метрик, SLA и production-нагрузки.',
+      'Контент отделён от UI.',
+      'Только реализованные модули.',
+      'Без выдуманных SLA и метрик.',
     ],
   },
 ];
@@ -60,7 +52,7 @@ export function DesignCardsSection() {
       <div className="sectionHeader">
         <p className="eyebrow">System Design</p>
         <h2 id="design-cards-title">System design cards</h2>
-        <p>Три короткие архитектурные карточки: задача, текстовая схема, стек и ключевые решения.</p>
+        <p>Три компактные архитектурные карточки: задача, mini-flow, стек и ключевые решения.</p>
       </div>
 
       <div className="designGrid">
@@ -73,22 +65,23 @@ export function DesignCardsSection() {
             </div>
             <div className="designBlock">
               <h4>Схема</h4>
-              <div className="schema-block schemePanel">
+              <div className="schemePanel" role="img" aria-label={`Mini-flow ${card.title}: ${card.schemeNodes.join(' → ')}`}>
                 <div className="schemePanelBar" aria-hidden="true">
                   <span />
                   <span />
                   <span />
-                  <strong>architecture.flow</strong>
+                  <strong>mini-flow</strong>
                 </div>
-                <div className="schemeFlowLabels" aria-hidden="true">
-                  {getSchemeNodes(card.scheme).map((node, index, nodes) => (
-                    <span className="schemeFlowNode" key={`${card.slug}-${node}`}>
-                      {node}
-                      {index < nodes.length - 1 ? <i className="schemeConnector" /> : null}
+                <div className="schemeFlowLabels">
+                  {card.schemeNodes.map((node, index) => (
+                    <span className="schemeFlowStep" key={`${card.slug}-${node}`}>
+                      <span className="schemeFlowNode">{node}</span>
+                      {index < card.schemeNodes.length - 1 ? (
+                        <i className="schemeConnector" aria-hidden="true" />
+                      ) : null}
                     </span>
                   ))}
                 </div>
-                <pre className="schemeBox" aria-label={`Короткая текстовая схема ${card.title}`}><code>{card.scheme}</code></pre>
               </div>
             </div>
             <div className="designBlock">
