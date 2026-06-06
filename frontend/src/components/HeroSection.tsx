@@ -1,8 +1,8 @@
 const terminalLines = [
-  'whoami  catcode / arbelin',
-  'stack   FastAPI · React · Docker',
-  'focus   bots · AI backend · automation',
-  'status  available for focused builds',
+  'whoami  catcode',
+  'stack   py · react',
+  'focus   bots · AI',
+  'status  open',
 ];
 
 const heroLinks = [
