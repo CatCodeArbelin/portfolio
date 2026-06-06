@@ -5,6 +5,13 @@ const terminalLines = [
   'status  available for focused builds',
 ];
 
+const heroLinks = [
+  { label: 'Telegram', note: 'visual only' },
+  { href: 'https://github.com/CatCodeArbelin', label: 'GitHub', primary: true },
+  { label: 'AI Generator', note: 'preview' },
+  { label: 'API Playground', note: 'preview' },
+] as const;
+
 export function HeroSection() {
   return (
     <section className="hero sectionCard" aria-labelledby="page-title">
@@ -17,16 +24,27 @@ export function HeroSection() {
           проектирую API, связываю внешние сервисы и превращаю повторяющиеся процессы в
           надёжные внутренние инструменты.
         </p>
-        <div className="heroActions" aria-label="Основные ссылки">
-          <a className="primaryLink" href="https://github.com/CatCodeArbelin">
-            GitHub
-          </a>
-          <a className="secondaryLink" href="#services">
-            Services
-          </a>
-          <a className="secondaryLink" href="#projects">
-            Projects
-          </a>
+        <div className="heroActions" aria-label="Основные ссылки и будущие интерактивные блоки">
+          {heroLinks.map((link) =>
+            'href' in link ? (
+              <a
+                className={link.primary ? 'primaryLink' : 'secondaryLink'}
+                href={link.href}
+                key={link.label}
+              >
+                {link.label}
+              </a>
+            ) : (
+              <span
+                className="secondaryLink visualOnlyLink"
+                aria-disabled="true"
+                key={link.label}
+                title={link.note}
+              >
+                {link.label}
+              </span>
+            ),
+          )}
         </div>
       </div>
 

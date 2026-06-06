@@ -5,6 +5,11 @@ const navLinks = [
   { href: '#status', label: 'Status' },
 ] as const;
 
+const actionLinks = [
+  { href: 'https://github.com/CatCodeArbelin', label: 'GitHub' },
+  { href: '#status', label: 'Status' },
+] as const;
+
 export function HeaderNav() {
   return (
     <header className="topNav" aria-label="Основная навигация">
@@ -24,7 +29,11 @@ export function HeaderNav() {
       </nav>
 
       <div className="topNavActions" aria-label="Быстрые действия">
-        <a href="#status">API status</a>
+        {actionLinks.map((link) => (
+          <a href={link.href} key={link.href}>
+            {link.label}
+          </a>
+        ))}
       </div>
     </header>
   );
