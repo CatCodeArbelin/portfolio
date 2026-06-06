@@ -987,8 +987,14 @@ h4 {
   margin-bottom: 0;
 }
 
+.schema-block {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
 .schemePanel {
-  overflow: hidden;
+  overflow: visible;
   background:
     linear-gradient(180deg, rgba(7, 13, 21, 0.94), rgba(3, 7, 12, 0.82)),
     radial-gradient(circle at 82% 18%, rgba(75, 240, 255, 0.12), transparent 13rem);
@@ -1075,16 +1081,28 @@ h4 {
 }
 
 .schemeBox {
+  display: block;
+  max-width: 100%;
   padding: 16px;
   margin: 0;
   overflow-x: auto;
+  overflow-wrap: anywhere;
   color: #d9ffe8;
   font-size: 0.84rem;
   line-height: 1.6;
-  white-space: pre;
+  white-space: pre-wrap;
+  word-break: normal;
   background:
     linear-gradient(90deg, rgba(141, 245, 182, 0.09) 0 2px, transparent 2px) 0 0 / 22px 100%,
     rgba(3, 7, 12, 0.46);
+}
+
+.schemeBox code {
+  display: block;
+  max-width: 100%;
+  overflow-wrap: inherit;
+  white-space: inherit;
+  word-break: inherit;
 }
 
 .apiPanel {
