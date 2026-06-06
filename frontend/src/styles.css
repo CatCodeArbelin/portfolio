@@ -56,6 +56,12 @@ code {
   white-space: pre-wrap;
 }
 
+html,
+body {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -159,11 +165,11 @@ h4 {
 .page {
   display: grid;
   gap: var(--section-gap);
-  width: min(100%, 1120px);
+  width: 100%;
+  max-width: 1180px;
   min-height: 100vh;
   margin: 0 auto;
-  padding: clamp(10px, 2.6vw, 22px);
-  overflow-x: clip;
+  padding-inline: clamp(14px, 4vw, 28px);
 }
 
 
@@ -272,7 +278,9 @@ h4 {
 
 .sectionCard {
   position: relative;
-  overflow: hidden;
+  max-width: 100%;
+  min-width: 0;
+  overflow: clip;
   padding: var(--section-padding);
   background:
     linear-gradient(135deg, rgba(18, 25, 36, 0.93), rgba(8, 12, 18, 0.92)),
@@ -309,6 +317,8 @@ h4 {
 .sectionCard > * {
   position: relative;
   z-index: 1;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .sectionHeader {
