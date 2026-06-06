@@ -1944,3 +1944,163 @@ h4 {
     transform: none;
   }
 }
+
+.previewPanel {
+  gap: 12px;
+  min-height: 100%;
+}
+
+.previewHeader {
+  margin-bottom: 0;
+}
+
+.previewHeader h2 {
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+}
+
+.previewHeader p:not(.eyebrow) {
+  font-size: 0.88rem;
+}
+
+.apiPreviewGrid,
+.terminalPreviewBody,
+.contactPreviewCard {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  background:
+    linear-gradient(135deg, rgba(8, 13, 21, 0.9), rgba(4, 8, 14, 0.84)),
+    radial-gradient(circle at 92% 0%, rgba(75, 240, 255, 0.12), transparent 9rem);
+  border: 1px solid rgba(178, 220, 255, 0.12);
+  border-radius: var(--radius-lg);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.apiEndpointList {
+  display: grid;
+  gap: 8px;
+}
+
+.apiEndpointRow,
+.contactPreviewRow {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  min-height: 38px;
+  padding: 8px 10px;
+  background: rgba(178, 220, 255, 0.055);
+  border: 1px solid rgba(178, 220, 255, 0.1);
+  border-radius: 12px;
+}
+
+.apiEndpointRow strong,
+.contactPreviewRow span {
+  color: var(--cyan);
+  font-size: 0.72rem;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.apiEndpointRow span,
+.contactPreviewRow strong {
+  color: var(--text);
+  font-size: 0.82rem;
+}
+
+.apiEndpointRow em {
+  color: var(--text-soft);
+  font-size: 0.68rem;
+  font-style: normal;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.apiEndpointRow-preview,
+.apiEndpointRow-locked {
+  border-style: dashed;
+}
+
+.apiEndpointRow-locked strong,
+.apiEndpointRow-locked em {
+  color: var(--violet);
+}
+
+.previewCodeWindow,
+.terminalPreviewBody {
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(3, 7, 12, 0.94), rgba(8, 13, 21, 0.9)),
+    radial-gradient(circle at 12% 82%, rgba(183, 140, 255, 0.11), transparent 9rem);
+  border: 1px solid rgba(75, 240, 255, 0.16);
+  border-radius: var(--radius-lg);
+}
+
+.previewCodeWindow pre,
+.terminalPreviewBody pre {
+  margin: 0;
+  padding: 12px;
+  color: #ddfff0;
+  font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+  font-size: 0.78rem;
+  line-height: 1.6;
+}
+
+.previewStatGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  padding: 0 12px 12px;
+}
+
+.previewStat {
+  display: grid;
+  gap: 3px;
+  padding: 8px;
+  background: rgba(75, 240, 255, 0.065);
+  border: 1px solid rgba(75, 240, 255, 0.15);
+  border-radius: 12px;
+}
+
+.previewStat small {
+  color: var(--text-soft);
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.previewStat strong {
+  color: var(--green);
+  font-size: 0.84rem;
+}
+
+.contactPreviewRow {
+  grid-template-columns: minmax(74px, auto) minmax(0, 1fr);
+}
+
+.contactPreviewNotice {
+  padding: 10px;
+  color: var(--text-soft);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+  background: rgba(183, 140, 255, 0.08);
+  border: 1px dashed rgba(183, 140, 255, 0.28);
+  border-radius: 12px;
+}
+
+@media (min-width: 641px) {
+  .apiPreviewGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .previewPanel:hover {
+    transform: none;
+  }
+}
