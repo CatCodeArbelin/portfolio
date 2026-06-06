@@ -1,11 +1,10 @@
 import { getProjects, type Project } from '../api/portfolio';
 import { useSectionData } from './useSectionData';
 
-const statusLabels: Record<Project['status'], string> = {
+const statusLabels: Partial<Record<Project['status'], string>> = {
   demo: 'Demo',
   'pet-project': 'Pet project',
   'client-prototype': 'Client prototype',
-  production: 'Production',
 };
 
 const projectFallbacks: Project[] = [
@@ -46,6 +45,8 @@ export function ProjectsSection() {
 
   const projects = projectsState.status === 'ready' ? projectsState.data : projectFallbacks;
 
+  const getProjectAvatarLabel = (title: string) => title.trim().slice(0, 1).toUpperCase();
+
   return (
     <section className="sectionCard" id="projects" aria-labelledby="projects-title">
       <div className="sectionHeader">
@@ -61,11 +62,16 @@ export function ProjectsSection() {
         {projects.map((project) => (
           <article className="contentCard projectCard accentGlow" key={project.slug}>
             <header className="projectCardHeader">
-              <div>
+              <span className="projectAvatar" aria-hidden="true">
+                {getProjectAvatarLabel(project.title)}
+              </span>
+              <div className="projectTitleGroup">
                 <p className="compactLabel">{project.slug}</p>
                 <h3>{project.title}</h3>
               </div>
-              <span className="statusPill compactChip">{statusLabels[project.status]}</span>
+              {statusLabels[project.status] && (
+                <span className="statusPill compactChip">{statusLabels[project.status]}</span>
+              )}
             </header>
             <p className="projectDescription">{project.description}</p>
             <ul className="inlineList compactChipList" aria-label={`Стек проекта ${project.title}`}>
