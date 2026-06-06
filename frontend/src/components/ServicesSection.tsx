@@ -36,6 +36,13 @@ const serviceAccentClasses: Record<ServiceCard['title'], string> = {
   'Internal Tools': 'accentCyan',
 };
 
+const serviceDescriptions: Record<ServiceCard['title'], string> = {
+  'Telegram Bots': 'Боты для заявок, каталогов, оплат и уведомлений с понятной backend-логикой.',
+  'AI Automation': 'AI-ассистенты и workflow для обработки запросов, ответов и повторяющейся рутины.',
+  'Backend API': 'FastAPI / REST endpoints с PostgreSQL, Redis и Docker-ready структурой.',
+  'Internal Tools': 'Мини-CRM, панели и служебные интерфейсы для ежедневной работы команды.',
+};
+
 function getCompatibleFeatures(service: unknown, title: ServiceCard['title']): string[] | undefined {
   if (!service || typeof service !== 'object' || !('title' in service) || !('features' in service)) {
     return undefined;
@@ -106,11 +113,8 @@ export function ServicesSection() {
               </span>
               <h3>{service.title}</h3>
             </div>
-            <ul>
-              {service.features.map((feature) => (
-                <li key={feature}>{feature}</li>
-              ))}
-            </ul>
+            <p className="serviceDescription">{serviceDescriptions[service.title]}</p>
+            <span className="cardArrow" aria-hidden="true">→</span>
           </article>
         ))}
       </div>
